@@ -45,7 +45,7 @@ public class TCPClient {
      ***************************************************************************/
 
     /**
-     *
+     * Parses the received message and generates the response accordingly.
      * @param message Message received from server
      * @return  response message
      * @throws NoSuchAlgorithmException

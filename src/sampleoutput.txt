@@ -1,0 +1,36 @@
+java TCPServer -d
+java TCPClient -d localhost user1 pass1
+
+Server Side:
+Handling client at 127.0.0.1 on port 59952
+[22.31.50] Received Message: REQ from 127.0.0.1:59952
+[22.31.50] Sending Message: CHAFBzAu9Kjm61BYG89ivea7hUT1IM8SFC6ak2IBS80ZHEdq5gyxL20150211223150 to 127.0.0.1:59952
+[22.31.50] Received Message: URH5user1a02c15ac65763766d45e272b272b72dd from 127.0.0.1:59952
+[22.31.50] Sending Message: AUT1 to 127.0.0.1:59952
+
+Client Side:
+Using default port number 1024
+[22.31.50] Sending Message: REQ to localhost/127.0.0.1:1024
+[22.31.50] Received Message: CHAFBzAu9Kjm61BYG89ivea7hUT1IM8SFC6ak2IBS80ZHEdq5gyxL20150211223150 from localhost/127.0.0.1:1024
+[22.31.50] Sending Message: URH5user1a02c15ac65763766d45e272b272b72dd
+[22.31.50] Received Message: AUT1 from localhost/127.0.0.1:1024
+Welcome to our service.
+
+=================================================================================================
+
+java UDPServer -d 1024
+java UDPClient -d localhost user1 pass1
+
+Server Side:
+[22.31.11] Received Message: REQ from 127.0.0.1:52865
+[22.31.11] Sending Message: CHACHAPTbWVKoaPWPDl3IjdhVP8ZqHrNYOg0eOm65DWFYT0i7kEv3Xg420150211223111 to 127.0.0.1:52865
+[22.31.11] Received Message: URHURH5user1eeccbb7422a30fafec549e21f4d3baf8 from 127.0.0.1:52865
+[22.31.11] Sending Message: AUTAUT1 to 127.0.0.1:52865
+
+Client Side:
+Using default port number 1024
+[22.31.11] Sending Message: REQ to 127.0.0.1:1024
+[22.31.11] Received Message: CHACHAPTbWVKoaPWPDl3IjdhVP8ZqHrNYOg0eOm65DWFYT0i7kEv3Xg420150211223111 from 127.0.0.1:1024
+[22.31.11] Sending Message: URHURH5user1eeccbb7422a30fafec549e21f4d3baf8 to 127.0.0.1:1024
+[22.31.11] Received Message: AUTAUT1 from 127.0.0.1:1024
+Welcome to our service.
