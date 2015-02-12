@@ -126,7 +126,7 @@ public class TCPServer {
 
         if (debug) {
             String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
-            System.out.println("["+timeStamp+"] "+"Sending Message: "+sb.toString()+" to "+host);
+            System.out.println("["+timeStamp+"] "+"Sending Message: "+sb.toString()+" to "+host+":"+port);
         }
         sb.append('\n'); // add end of message character to message
         return sb.toString();
