@@ -48,19 +48,19 @@ public class UDPClient {
 	 * @param receivePacket	message received from the server
 	 * @return	the response packet
 	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
     private DatagramPacket parseMessage(DatagramPacket receivePacket) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         InetAddress host = receivePacket.getAddress();
         int port = receivePacket.getPort();
         String message = new String(receivePacket.getData());
-        
+
         if(message.length() < 4){
         	if(debug)
         		System.out.print("Received message too short. ");
         	System.exit(0);
         }
-        
+
         String type = message.substring(0,3);
         String data = message.substring(3);
         StringBuilder sb = new StringBuilder();
@@ -84,7 +84,7 @@ public class UDPClient {
             int result = Character.getNumericValue(data.charAt(0));
             if (result==1)
                 System.out.println("Welcome to our service.");
-            else 
+            else
                 System.out.println("User authorization failed.");
             System.exit(0);
         } else {
@@ -103,7 +103,7 @@ public class UDPClient {
      * @param s the String to generate MD5 from
      * @return generated MD5
      * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException 
+     * @throws UnsupportedEncodingException
      */
     private String hash(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
     	MessageDigest md = MessageDigest.getInstance("MD5");
@@ -122,7 +122,7 @@ public class UDPClient {
     		System.out.println("usage: UDPClient [-d] [host:port] [username] [password]");
     		System.exit(0);
     	}
-    	
+
     	int off = 0;
     	if (args[0].charAt(0) == '-'){
     		if(args[0].charAt(1)!='d'){
@@ -186,7 +186,7 @@ public class UDPClient {
 	        try{
 	        	Arrays.fill(receiveData, (byte)0);
 	        	clientSocket.receive(receivePacket);
-	        } 
+	        }
 	        //If packet lost or connect time out, re-send last packet
 	        catch (SocketTimeoutException e){
 	        	//retry up to 5 times

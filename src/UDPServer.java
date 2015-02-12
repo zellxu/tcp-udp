@@ -8,7 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class UDPServer {
-    
+
 	private static final HashMap<String, String> PASSWORD = new HashMap<String, String>();
 	static{
 		PASSWORD.put("user1", "pass1");
@@ -60,19 +60,19 @@ public class UDPServer {
 	 * @param receivePacket	message received from the client
 	 * @return	the response packet
 	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
     private DatagramPacket parseMessage(DatagramPacket receivePacket) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         InetAddress host = receivePacket.getAddress();
         int port = receivePacket.getPort();
         String message = new String(receivePacket.getData());
-        
+
         if(message.length() < 4){
         	if(debug)
         		System.out.print("Received message too short. ");
         	return failPacket(host, port);
         }
-        
+
         String type = message.substring(0,3);
         String data = message.substring(3);
         StringBuilder sb = new StringBuilder();
@@ -106,13 +106,13 @@ public class UDPServer {
             }
             String username = data.substring(1, usernameLength+1);
             String password = PASSWORD.get(username);
-            
+
             if(password == null){
             	if(debug)
             		System.out.print("Received username does not exist. ");
             	return failPacket(host, port);
             }
-            
+
             String random = challenge.get(host.getHostAddress()+port);
             if(random == null){
             	if(debug)
@@ -134,7 +134,7 @@ public class UDPServer {
             	return failPacket(host, port);
             }
             sb.append("AUT1");
-            
+
         } else {
         	if(debug)
         		System.out.print("Received wrong message type. ");
@@ -164,12 +164,12 @@ public class UDPServer {
 		String time = generateTimeStamp();
         int length = RANDOM_STRING_LENGTH - time.length();
         StringBuilder sb = new StringBuilder();
-        for (int i=0; i<length; i++) 
+        for (int i=0; i<length; i++)
             sb.append(chars.charAt((int)(Math.random()*chars.length())));
         sb.append(time);
         return sb.toString();
     }
-    
+
     /**
      * Helper method for generating time stamps
      * @return formated time stamp
@@ -183,7 +183,7 @@ public class UDPServer {
      * @param s the String to generate MD5 from
      * @return generated MD5
      * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException 
+     * @throws UnsupportedEncodingException
      */
     private String hash(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
     	MessageDigest md = MessageDigest.getInstance("MD5");
@@ -202,8 +202,8 @@ public class UDPServer {
     		System.out.println("usage: UDPServer [-d] [port]");
     		System.exit(0);
     	}
-    	
-    	int port=DEFAULT_PORT; 
+
+    	int port=DEFAULT_PORT;
     	for(int i=0; i<args.length; i++){
     		switch (args[i].charAt(0)){
     		case '-':

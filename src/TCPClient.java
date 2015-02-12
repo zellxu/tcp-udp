@@ -45,11 +45,11 @@ public class TCPClient {
      ***************************************************************************/
 
     /**
-     * 
+     *
      * @param message Message received from server
-     * @return  response message  
+     * @return  response message
      * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException 
+     * @throws UnsupportedEncodingException
      */
     private String parseMessage(String message) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         if(message.length() < 4){
@@ -57,7 +57,7 @@ public class TCPClient {
         		System.out.print("Received message too short. ");
         	System.exit(0);
         }
-        
+
         String type = message.substring(0,3);
         String data = message.substring(3);
         StringBuilder sb = new StringBuilder();
@@ -73,7 +73,7 @@ public class TCPClient {
             int result = Character.getNumericValue(data.charAt(0));
             if (result==1)
                 System.out.println("Welcome to our service.");
-            else 
+            else
                 System.out.println("User authorization failed.");
             System.exit(0);
         } else {
@@ -94,7 +94,7 @@ public class TCPClient {
      * @param s the String to generate MD5 from
      * @return generated MD5
      * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException 
+     * @throws UnsupportedEncodingException
      */
     private String hash(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
     	MessageDigest md = MessageDigest.getInstance("MD5");
@@ -113,7 +113,7 @@ public class TCPClient {
     		System.out.println("usage: TCPClient [-d] [host:port] [username] [password]");
     		System.exit(0);
     	}
-    	
+
     	int off = 0;
     	if (args[0].charAt(0) == '-'){
     		if(args[0].charAt(1)!='d'){
@@ -156,7 +156,7 @@ public class TCPClient {
         	System.out.println("Invalid password. Aalphanumeric and underscores only.");
         	System.exit(0);
         }
-    
+
 //        System.out.println("Host: "+host);
 //        System.out.println("Port: "+port);
 //        System.out.println("User: "+username);
@@ -167,7 +167,7 @@ public class TCPClient {
         Socket clientSocket = new Socket(host, port);
         BufferedReader receiveBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         DataOutputStream sendBuffer = new DataOutputStream(clientSocket.getOutputStream());
-        
+
         // Check connection
         if (!clientSocket.isConnected()) {
             System.out.println("Connection is not established. Please try again.");
@@ -178,7 +178,7 @@ public class TCPClient {
         // Send request message
         String request = "REQ\n";
         sendBuffer.writeBytes(request);
-       
+
         // Keep it running until authentication message is received.
         String receiveData = "";
         while(true){

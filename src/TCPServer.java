@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 public class TCPServer {
-    
+
 	private static final HashMap<String, String> PASSWORD = new HashMap<String, String>();
 	static{
 		PASSWORD.put("user1", "pass1");
@@ -59,7 +59,7 @@ public class TCPServer {
 	 * @param receivePacket	message received from the client
 	 * @return	the response packet
 	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
     private static String parseMessage(String message, String host, int port) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         if(message.length() < 3){
@@ -67,7 +67,7 @@ public class TCPServer {
         		System.out.print("Received message too short. ");
         	return "AUT0\n";
         }
-        
+
         String type = message.substring(0,3);
         String data = message.substring(3);
         StringBuilder sb = new StringBuilder();
@@ -86,16 +86,16 @@ public class TCPServer {
             		System.out.print("Received username has wrong length. ");
             	return "AUT0\n";
             }
-            
+
             String username = data.substring(1, usernameLength+1);
             String password = PASSWORD.get(username);
-            
+
             if(password == null){
             	if(debug)
             		System.out.print("Received username does not exist. ");
             	return "AUT0\n";
             }
-            
+
             String random = challenge.get(host+port);
             if(random == null){
             	if(debug)
@@ -117,7 +117,7 @@ public class TCPServer {
             	return "AUT0\n";
             }
             sb.append("AUT1");
-            
+
         } else {
         	if(debug)
         		System.out.print("Received wrong message type. ");
@@ -141,12 +141,12 @@ public class TCPServer {
 		String time = generateTimeStamp();
         int length = RANDOM_STRING_LENGTH - time.length();
         StringBuilder sb = new StringBuilder();
-        for (int i=0; i<length; i++) 
+        for (int i=0; i<length; i++)
             sb.append(chars.charAt((int)(Math.random()*chars.length())));
         sb.append(time);
         return sb.toString();
     }
-    
+
     /**
      * Helper method for generating time stamps
      * @return formated time stamp
@@ -160,7 +160,7 @@ public class TCPServer {
      * @param s the String to generate MD5 from
      * @return generated MD5
      * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException 
+     * @throws UnsupportedEncodingException
      */
     private static String hash(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
     	MessageDigest md = MessageDigest.getInstance("MD5");
@@ -179,8 +179,8 @@ public class TCPServer {
     		System.out.println("usage: TCPServer [-d] [port]");
     		System.exit(0);
     	}
-    	
-    	int port=DEFAULT_PORT; 
+
+    	int port=DEFAULT_PORT;
     	for(int i=0; i<args.length; i++){
     		switch (args[i].charAt(0)){
     		case '-':
@@ -220,14 +220,14 @@ public class TCPServer {
             new Thread(new ConnectedSocket(connectionSocket)).start();
         }
     }
-    
+
     static private class ConnectedSocket implements Runnable{
-    	Socket connectionSocket; 
-    	
+    	Socket connectionSocket;
+
     	private ConnectedSocket(Socket connectionSocket){
     		this.connectionSocket = connectionSocket;
     	}
-    	
+
 		@Override
 		public void run() {
 			try{
@@ -240,7 +240,7 @@ public class TCPServer {
                     String receiveData = receiveBuffer.readLine();
                     if(receiveData.getBytes().length > 128)
                         connectionSocket.close();
-                    
+
                     if (debug) {
                         String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
                         System.out.println("["+timeStamp+"] "+"Received Message: "+receiveData);
@@ -256,6 +256,6 @@ public class TCPServer {
 				}
             }
 		}
-    	
+
     }
 }
