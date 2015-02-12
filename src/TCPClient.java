@@ -157,11 +157,6 @@ public class TCPClient {
         	System.exit(0);
         }
 
-//        System.out.println("Host: "+host);
-//        System.out.println("Port: "+port);
-//        System.out.println("User: "+username);
-//        System.out.println("Pass: "+password);
-
         // Initiate client
         TCPClient client = new TCPClient();
         Socket clientSocket = new Socket(host, port);
@@ -178,7 +173,10 @@ public class TCPClient {
         // Send request message
         String request = "REQ\n";
         sendBuffer.writeBytes(request);
-
+        if(debug){
+            String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
+        	System.out.println("["+timeStamp+"] "+"Sending Message: REQ to " +host+":"+port);
+        }
         // Keep it running until authentication message is received.
         String receiveData = "";
         while(true){
@@ -187,7 +185,7 @@ public class TCPClient {
 	        	receiveData = receiveBuffer.readLine();
                 if (debug) {
                     String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
-                    System.out.println("["+timeStamp+"] "+"Received Message: "+receiveData);
+                    System.out.println("["+timeStamp+"] "+"Received Message: "+receiveData+" from "+ host+":"+port);
                 }
 	        sendBuffer.writeBytes(client.parseMessage(receiveData));
             if (receiveData.substring(0,3).equals("AUT")) {

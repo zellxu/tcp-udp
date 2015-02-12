@@ -243,7 +243,7 @@ public class TCPServer {
 
                     if (debug) {
                         String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
-                        System.out.println("["+timeStamp+"] "+"Received Message: "+receiveData);
+                        System.out.println("["+timeStamp+"] "+"Received Message: "+receiveData + " from " + clientHost+":"+connectionSocket.getPort());
                     }
                     sendBuffer.writeBytes(parseMessage(receiveData, clientHost, connectionSocket.getPort()));
                 }

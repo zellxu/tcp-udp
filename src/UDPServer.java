@@ -3,6 +3,7 @@ import java.net.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -80,8 +81,8 @@ public class UDPServer {
         // Determine type of message and handle accordingly
         if (type.equals("REQ")) {
         	if(debug){
-        		System.out.println("REQ received from " + host.getHostAddress() + ":" + port);
-	        	System.out.println("Content:{" + message +"}");
+        		String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
+                System.out.println("["+timeStamp+"] "+"Received Message: REQ"+" from " + host.getHostAddress()+":"+port);
         	}
             sb.append("CHA");
             String random = generateRandomString();
@@ -90,8 +91,8 @@ public class UDPServer {
         }
         else if (type.equals("URH")) {
         	if(debug){
-        		System.out.println("URH received from " + host.getHostAddress() + ":" + port);
-	        	System.out.println("Content:{" + message +"}");
+        		String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
+                System.out.println("["+timeStamp+"] "+"Received Message: URH"+message+" from " + host.getHostAddress()+":"+port);
         	}
             int usernameLength = Character.getNumericValue(data.charAt(0));
             if(usernameLength > 15 || usernameLength < 1){
@@ -244,14 +245,11 @@ public class UDPServer {
             serverSocket.send(sendPacket);
             if(debug){
             	String send = new String (sendPacket.getData());
-            	if(send.substring(0,3).equals("AUT")){
-            		System.out.println("AUT sent to "+ sendPacket.getAddress().getHostAddress()+":" + sendPacket.getPort());
-    	        	System.out.println("Content:{" + new String(sendPacket.getData())+"}");
-            	}
-            	else{
-            		System.out.println("CHA sent to "+ sendPacket.getAddress().getHostAddress()+":" + sendPacket.getPort());
-    	        	System.out.println("Content:{" + new String(sendPacket.getData())+"}");
-            	}
+        		String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
+            	if(send.substring(0,3).equals("AUT"))
+                    System.out.println("["+timeStamp+"] "+"Sending Message: AUT"+send+" to " + sendPacket.getAddress().getHostAddress()+":"+sendPacket.getPort());
+            	else
+                    System.out.println("["+timeStamp+"] "+"Sending Message: CHA"+send+" to " + sendPacket.getAddress().getHostAddress()+":"+sendPacket.getPort());
             }
         }
     }

@@ -1,7 +1,9 @@
 import java.net.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.io.*;
 
 public class UDPClient {
@@ -68,8 +70,8 @@ public class UDPClient {
         // Determine type of message and handle accordingly
         if (type.equals("CHA")) {
         	if(debug){
-        		System.out.println("CHA received from " + host.getHostAddress() + ":" + port);
-	        	System.out.println("Content:{" + message +"}");
+        		String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
+                System.out.println("["+timeStamp+"] "+"Received Message: CHA"+message+" from " + host.getHostAddress()+":"+port);
         	}
             String hash = hash(username+password+data.substring(0,RANDOM_STRING_LENGTH));
             sb.append("URH");
@@ -78,8 +80,8 @@ public class UDPClient {
             sb.append(hash);
         } else if (type.equals("AUT")) {
         	if(debug){
-        		System.out.println("AUT received from " + host.getHostAddress() + ":" + port);
-	        	System.out.println("Content:{" + message +"}");
+        		String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
+                System.out.println("["+timeStamp+"] "+"Received Message: AUT"+message+" from " + host.getHostAddress()+":"+port);
         	}
             int result = Character.getNumericValue(data.charAt(0));
             if (result==1)
@@ -177,8 +179,8 @@ public class UDPClient {
         DatagramPacket sendPacket = new DatagramPacket(request, request.length, host, port);
         clientSocket.send(sendPacket);
         if(debug){
-        	System.out.println("REQ sent to "+ host.getHostAddress()+":" + port);
-    		System.out.println("Content:{" + new String(sendPacket.getData())+"}");
+        	String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
+            System.out.println("["+timeStamp+"] "+"Sending Message: REQ"+" to " + host.getHostAddress()+":"+port);
         }
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         int count = 0;
@@ -197,17 +199,17 @@ public class UDPClient {
 	        	clientSocket.send(sendPacket);
 	        	count++;
 	        	if(debug){
-	        		System.out.println("Did not receive response. Trying again.");
-            		System.out.println("REQ sent to "+ host.getHostAddress()+":" + port);
-    	        	System.out.println("Content:{" + new String(sendPacket.getData())+"}");
+	        		String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
+	        		System.out.println("["+timeStamp+"]" +" Did not receive response. Trying again.");
+	                System.out.println("["+timeStamp+"] "+"Sending Message: REQ"+" to " + host.getHostAddress()+":"+port);
 	        	}
 	        	continue;
 	        }
 	        sendPacket = client.parseMessage(receivePacket);
 	        clientSocket.send(sendPacket);
 	        if(debug){
-	        	System.out.println("URH sent to "+ host.getHostAddress()+":" + port);
-	        	System.out.println("Content:{" + new String(sendPacket.getData())+"}");
+	        	String timeStamp = new SimpleDateFormat("HH.mm.ss").format(new Date());
+                System.out.println("["+timeStamp+"] "+"Sending Message: URH"+new String(sendPacket.getData())+" to " + host.getHostAddress()+":"+port);
 	        }
         }
     }
